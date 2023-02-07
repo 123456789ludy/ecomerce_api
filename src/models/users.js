@@ -18,12 +18,12 @@ class users extends Sequelize.Model {
       allowNull: false
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
       unique: "users_email_key"
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false
     }
   }, {

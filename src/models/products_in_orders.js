@@ -8,38 +8,33 @@ class products_in_orders extends Sequelize.Model {
   return super.init({
     id: {
       autoIncrement: true,
+      autoIncrementIdentity: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     order_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'orders',
-        key: 'id'
-      }
+      allowNull: false
     },
     product_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'products',
-        key: 'id'
-      }
+      allowNull: false
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
+      defaultValue: 0
     },
     price: {
       type: DataTypes.DOUBLE,
-      allowNull: false
+      allowNull: true,
+      defaultValue: 0
     },
     status: {
-      type: DataTypes.ENUM("not_purchased","purchased"),
+      type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValue: "purchased"
+      defaultValue: false
     }
   }, {
     sequelize,

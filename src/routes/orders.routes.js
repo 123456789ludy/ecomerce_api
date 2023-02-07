@@ -1,21 +1,20 @@
-const { Router } = require("express");
-const { register, login } = require("../controllers/auth.controller");
-const router = Router();
-
+const express = require('express');
+const orderController = require('../controllers/orders.controller');
+const router = express.Router();
 
 /**
  * @openapi
- * /api/v1/auth/register:
+ * /api/v1/orders:
  *   post:
- *     summary: create a new user into application
- *     tags: [Auth]
+ *     summary: Create a new product
+ *     tags: [Orders]
  *     requestBody:
- *       description: Required fields to create a new user
+ *       description: Required fields to create a new product
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/register'
+ *             $ref: '#/components/schemas/productCreate'
  *     responses:
  *       201:
  *         description: Created
@@ -26,7 +25,7 @@ const router = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: user created
+ *                   example: prodcut create
  *       400:
  *         description: Validation error
  *         content:
@@ -37,24 +36,24 @@ const router = Router();
  *                 message:
  *                   type: string
  *                   example: validation error
- * /api/v1/auth/login:
- *   post:
- *     summary: Login an existing user into the app
- *     tags: [Auth]
+ *   get:
+ *     summary: Request all products
+ *     tags: [Orders]
  *     requestBody:
- *       description: Required fields to login a existing user
+ *       description: Return all products
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/login"
+ *             type: array
+ *             $ref: "#/components/schemas/Product"
  *     responses:
  *       200:
- *         description: OK
+ *         description: Successful operation, return all products
  *         content:
  *           application/json:
  *             schema:
- *               $ref: "#/components/schemas/loginResponse"
+ *               $ref: "#/components/schemas/Poduct"
  *       400:
  *         description: not found
  *         content:
@@ -64,11 +63,11 @@ const router = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: user not found / something wrong / not password or email provided
+ *                   example: product not found / something wrong /
  */
 
-
-router.post("/register", register);
-router.post("/login", login);
+router.post('/', orderController.createOrder);
+router.get('/', orderController.getAllOrders);
+router.get('/:id', orderController.getOrderById);
 
 module.exports = router;

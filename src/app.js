@@ -1,25 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const initModels = require('./models/initModels');
-const routerApi = require('./routes');
-const errorHandler = require('./middlewares/error.middleware');
-const tokenExtractor = require('./middlewares/tokenExtractor.middleware');
+//const initModels = require('./models/init-models');
+const authRoutes= require("./routes/auth.routes");
+const transporter = require("./utils/mailer");
+const routerApi = require("./routes");
+const error = require("./middlewares/error.middleware");
+
 const db = require('./utils/database');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(morgan('tiny'));
+app.use(morgan("tiny"));
 
-initModels(app);
-app.use(tokenExtractor);
-app.use(errorHandler);
 routerApi(app);
 
-db.sync({ force: false })
-  .then(() => console.log('db synched'))
-  .catch((error) => console.log(error));
+app.use(error);
 
 module.exports = app;

@@ -1,28 +1,15 @@
 const initModels = require("./init-models");
 const db = require("../utils/database");
 
-const model = initModels(db);
-
-const {  OrderModels, productmodels, productinCart, productinOrder, usersmodels } = models;
-
-module.exports = {
-    
-  OrderModels,
-  productmodels,
-  productinCart,
-  productinOrder,
-  usersmodels,
-};
-const initModels = require("./init-models");
-const db = require("../utils/database");
-
 const models = initModels(db);
 
-const { orders, products, carts, users } = models;
+const { cart, orders, productInCart, productInOrder, products, users } = models;
 
 module.exports = {
+  cart,
   orders,
+  productInCart,
+  productInOrder,
   products,
-  carts,
   users,
 };

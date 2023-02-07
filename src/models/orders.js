@@ -8,12 +8,13 @@ class orders extends Sequelize.Model {
   return super.init({
     id: {
       autoIncrement: true,
+      autoIncrementIdentity: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     total_price: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     user_id: {
@@ -25,9 +26,9 @@ class orders extends Sequelize.Model {
       }
     },
     status: {
-      type: DataTypes.ENUM("not_purchased","purchased"),
+      type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValue: "purchased"
+      defaultValue: false
     }
   }, {
     sequelize,
@@ -36,7 +37,7 @@ class orders extends Sequelize.Model {
     timestamps: false,
     indexes: [
       {
-        name: "orders_pkey",
+        name: "order_pkey",
         unique: true,
         fields: [
           { name: "id" },

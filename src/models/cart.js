@@ -1,16 +1,22 @@
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  return carts.init(sequelize, DataTypes);
+  return cart.init(sequelize, DataTypes);
 }
 
-class carts extends Sequelize.Model {
+class cart extends Sequelize.Model {
   static init(sequelize, DataTypes) {
   return super.init({
     id: {
       autoIncrement: true,
+      autoIncrementIdentity: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
+    },
+    total_price: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+      defaultValue: 0
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -20,19 +26,18 @@ class carts extends Sequelize.Model {
         key: 'id'
       }
     },
-    total_price: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-      defaultValue: 0
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'carts',
+    tableName: 'cart',
     schema: 'public',
     timestamps: false,
     indexes: [
       {
-        name: "carts_pkey",
+        name: "cart_pkey",
         unique: true,
         fields: [
           { name: "id" },

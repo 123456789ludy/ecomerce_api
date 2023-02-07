@@ -1,198 +1,201 @@
-const db = require('../utils/database');
-const Users = require('../models/users.models');
-const Product = require('../models/product.models');
-const Order = require('../models/Order.models');
-const Cart = require('../models/Cart.models');
-const ProductsInCart = require('../models/ProductInCart.models');
-const ProductsInOrder = require('../models/ProductInOrder.models');
-const initModels = require('../models/initModels');
+const {
+  order,
+  products,
+  cart,
+  users,
+  productInOrder,
+  productInCart,
+} = require("../models");
 
-initModels();
+const db = require("../utils/database")
+const initModels = require("../models/init-models");
 
-const users = [
+initModels(db);
+
+const Users = [
   {
-    username: 'user 1',
-    email: 'mail1@mail.com',
-    password: '1111',
+    username: "carlos",
+    email: "carlos@mail.com",
+    password: "123",
   },
   {
-    username: 'user 2',
-    email: 'mail2@mail.com',
-    password: '2222',
+    username: "pedro",
+    email: "pedro@mail.com",
+    password: "123",
   },
   {
-    username: 'user 3',
-    email: 'mail3@mail.com',
-    password: '3333',
+    username: "ricardo",
+    email: "ricardo@mail.com",
+    password: "123",
   },
   {
-    username: 'user 4',
-    email: 'mail4@mail.com',
-    password: '4444',
+    username: "juan",
+    email: "juan@mail.com",
+    password: "4444",
   },
 ];
 
-const products = [
+const Products = [
   {
-    name: 'product 1',
-    price: 100.0,
+    name: "cola",
+    price: 5.0,
+    available_qty: 2,
+    status: true,
+    user_id: 1,
+  },
+  {
+    name: "zapato",
+    price: 20.0,
+    available_qty: 3,
+    status: true,
+    user_id: 2,
+  },
+  {
+    name: "camisa",
+    price: 30.0,
     available_qty: 10,
-    status: 'not_purchased',
-    user_id: 1,
-  },
-  {
-    name: 'product 2',
-    price: 200.0,
-    available_qty: 20,
-    status: 'not_purchased',
-    user_id: 2,
-  },
-  {
-    name: 'product 3',
-    price: 300.0,
-    available_qty: 30,
-    status: 'purchased',
+    status: true,
     user_id: 3,
   },
   {
-    name: 'product 4',
-    price: 400.0,
-    available_qty: 40,
-    status: 'purchased',
+    name: "reloj",
+    price: 50.0,
+    available_qty: 2,
+    status: true,
     user_id: 4,
   },
 ];
 
-const orders = [
+const Orders = [
   {
-    total_price: 111.11,
+    total_price: 5.0,
     user_id: 1,
-    status: 'purchased',
+    status: true,
   },
   {
-    total_price: 222.22,
+    total_price: 20.0,
     user_id: 2,
-    status: 'purchased',
+    status: true,
   },
   {
-    total_price: 333.33,
+    total_price: 30.0,
     user_id: 3,
-    status: 'purchased',
+    status: true,
   },
   {
-    total_price: 444.44,
+    total_price: 50.0,
     user_id: 4,
   },
 ];
 
-const carts = [
+const Carts = [
   {
     user_id: 1,
-    total_price: 111.11,
+    total_price: 5.0,
   },
   {
     user_id: 2,
-    total_price: 222.22,
+    total_price: 20.0,
   },
   {
     user_id: 3,
-    total_price: 333.33,
+    total_price: 30.0,
   },
   {
     user_id: 4,
-    total_price: 444.44,
+    total_price: 50.0,
   },
 ];
 
-const productsInCart = [
+const ProductInCart = [
   {
     cart_id: 1,
     product_id: 1,
     quantity: 1,
-    price: 100.0,
-    status: 'not_purchased',
+    price: 5.0,
+    status: true,
   },
   {
     cart_id: 2,
     product_id: 2,
     quantity: 2,
-    price: 200.0,
-    status: 'not_purchased',
+    price: 20.0,
+    status: true,
   },
   {
     cart_id: 3,
     product_id: 3,
     quantity: 3,
-    price: 300.0,
+    price: 30.0,
   },
   {
     cart_id: 4,
     product_id: 4,
     quantity: 4,
-    price: 400.0,
-    status: 'purchased',
+    price: 50.0,
+    status: true,
   },
 ];
 
-const productsInOrder = [
+const ProductInOrder = [
   {
     order_id: 1,
     product_id: 1,
     quantity: 1,
-    price: 100.0,
-    status: 'not_purchased',
+    price: 5.0,
+    status: true,
   },
   {
     order_id: 2,
     product_id: 2,
     quantity: 2,
-    price: 200.0,
+    price: 20.0,
   },
   {
     order_id: 3,
     product_id: 3,
     quantity: 3,
-    price: 300.0,
-    status: 'purchased',
+    price: 30.0,
+    status: true,
   },
   {
     order_id: 4,
     product_id: 4,
     quantity: 4,
-    price: 400.0,
-    status: 'not_purchased',
+    price: 50.0,
+    status: true,
   },
 ];
 
 db.sync({ force: true })
   .then(() => {
-    console.log('starting seed');
-    users.forEach((user) => {
-      Users.create(user);
+    console.log("starting seed");
+    Users.forEach((user) => {
+      users.create(user);
     });
     setTimeout(() => {
-      products.forEach((product) => {
-        Product.create(product);
+      Products.forEach((element) => {
+        products.create(element);
       });
     }, 1000);
     setTimeout(() => {
-      orders.forEach((order) => {
-        Order.create(order);
+      Orders.forEach((element) => {
+        order.create(element);
       });
     }, 2000);
     setTimeout(() => {
-      carts.forEach((cart) => {
-        Cart.create(cart);
+      Carts.forEach((element) => {
+        cart.create(element);
       });
     }, 3000);
     setTimeout(() => {
-      productsInCart.forEach((product) => {
-        ProductsInCart.create(product);
+      ProductInCart.forEach((product) => {
+        productInCart.create(product);
       });
     }, 4000);
     setTimeout(() => {
-      productsInOrder.forEach((product) => {
-        ProductsInOrder.create(product);
+      ProductInOrder.forEach((product) => {
+        productInOrder.create(product);
       });
     }, 5000);
   })

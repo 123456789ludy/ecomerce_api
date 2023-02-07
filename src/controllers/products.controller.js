@@ -5,16 +5,15 @@ const getAllProducts = async (req, res, next) => {
     const products = await ProductServices.getAllProducts();
     res.json(products);
   } catch (error) {
-    // res.status(400).json(error.message);
     next(error);
   }
 };
 
-const createProduct = async (req, res, next) => {
+const ProductCreate = async (req, res, next) => {
   try {
+    const {id} = req.params;
     const { body } = req;
-    const user_id = await req.user.id;
-    const newProduct = { ...body, user_id };
+    const newProduct = { ...body, id };
     const result = await ProductServices.createProduct(newProduct);
     res.status(201).json(result);
   } catch (error) {
@@ -22,4 +21,26 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllProducts, createProduct };
+const ProductUpdate = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const {body} = req;
+    const result= await ProductServices.updateProduct(id, body);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+const ProductDelete = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const result = await ProductServices.deleteProduct(id)
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { getAllProducts, ProductCreate, ProductUpdate, ProductDelete };

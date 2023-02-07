@@ -8,14 +8,14 @@ class products extends Sequelize.Model {
   return super.init({
     id: {
       autoIncrement: true,
+      autoIncrementIdentity: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: "products_name_key"
+      type: DataTypes.STRING(255),
+      allowNull: false
     },
     price: {
       type: DataTypes.DOUBLE,
@@ -23,20 +23,17 @@ class products extends Sequelize.Model {
     },
     available_qty: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    picture: {
-      type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
+      defaultValue: 10
     },
     status: {
-      type: DataTypes.ENUM("not_purchased","purchased"),
+      type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValue: "not_purchased"
+      defaultValue: false
     },
     user_id: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'users',
         key: 'id'
@@ -48,13 +45,6 @@ class products extends Sequelize.Model {
     schema: 'public',
     timestamps: false,
     indexes: [
-      {
-        name: "products_name_key",
-        unique: true,
-        fields: [
-          { name: "name" },
-        ]
-      },
       {
         name: "products_pkey",
         unique: true,

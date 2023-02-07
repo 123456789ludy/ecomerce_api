@@ -1,18 +1,12 @@
-const { Router } = require("express");
-const {
-  getAllProducts,
-  ProductCreate,
-  ProductUpdate,
-  ProductDelete,
-} = require("../controllers/products.controller");
-
-const router = Router();
+const express = require('express');
+const cartsController = require('../controllers/cart.controllers');
+const router = express.Router();
 /**
  * @openapi
- * /api/v1/products:
+ * /api/v1/cart:
  *   post:
  *     summary: Create a new product
- *     tags: [Products]
+ *     tags: [Cart]
  *     requestBody:
  *       description: Required fields to create a new product
  *       required: true
@@ -43,7 +37,7 @@ const router = Router();
  *                   example: validation error
  *   get:
  *     summary: Request all products
- *     tags: [Products]
+ *     tags: [Cart]
  *     requestBody:
  *       description: Return all products
  *       required: true
@@ -51,7 +45,7 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: array
- *             $ref: "#/components/schemas/ProductGet"
+ *             $ref: "#/components/schemas/Product"
  *     responses:
  *       200:
  *         description: Successful operation, return all products
@@ -71,7 +65,7 @@ const router = Router();
  *                   example: product not found / something wrong /
  *   put:
  *     summary: Update an existing product
- *     tags: [Products]
+ *     tags: [Cart]
  *     parameters:
  *       - in: path
  *         name: id
@@ -104,7 +98,7 @@ const router = Router();
  *                   example: product not found / something wrong /
  *   delete:
  *     summary: delete product
- *     tags: [Products]
+ *     tags: [Cart]
  *     parameters:
  *       - in: path
  *         name: id
@@ -129,8 +123,21 @@ const router = Router();
  *                   type: string
  *                   example: product not found / something wrong /
  */
-router.get("/", getAllProducts);
-router.post("/", ProductCreate);
-router.put("/:id", ProductUpdate);
-router.delete("/:id", ProductDelete);
+// Obtener todos los elementos del carrito
+//router.get("/", cartsController.getCartAll);
+
+// Obtener el carrito de compras de un usuario específico
+router.get("/:id", cartsController.getUserCart);
+
+// Agregar un elemento al carrito
+router.post("/", cartsController.addProductToCart);
+
+// Modificar la cantidad de un elemento en el carrito
+router.put("/:id", cartsController.updateCartItemQty);
+
+// Eliminar un elemento del carrito
+router.delete("/:id", cartsController.removeCartItem);
+
+
+
 module.exports = router;
