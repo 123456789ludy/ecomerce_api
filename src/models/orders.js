@@ -2,6 +2,23 @@ const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   return orders.init(sequelize, DataTypes);
 }
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     CreateOrder:
+ *       type: object
+ *       properties:
+ *         total_price:
+ *           type: number
+ *           example: 1000
+ *         user_id:
+ *           type: number
+ *           example: 4
+ *         status:
+ *           type: boolean
+ *           example: true
+ */
 
 class orders extends Sequelize.Model {
   static init(sequelize, DataTypes) {

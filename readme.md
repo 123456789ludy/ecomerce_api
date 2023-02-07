@@ -24,3 +24,8 @@
     -> encript password
     -> bycript
 13. authentication with the login
+npm WARN config production Use `--omit=dev` instead.
+> ecomerce_api@1.0.0 start
+> node ./src/server.js
+servidor escuchando en el puerto 5988
+La documentacion esta disponible en undefined:5988/api/v1/docs
